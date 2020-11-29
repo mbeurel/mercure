@@ -1,6 +1,6 @@
-# PostgreSQL
+# Mercure
 
-Deployement PostgreSQL service with traefik
+Deployement Mercure service with traefik
 
 ## Dependency
 
@@ -24,15 +24,15 @@ _Enter your parameters_
 docker-compose up # -d to detach container
 ```
 
-Open your favorite navigator and enter your 'POSTGRESQL_DOMAIN'
+Open your favorite navigator and enter your 'MERCURE_DOMAIN'
 
 Great, your postgresql is configure and start !
 
 ## Local
 
-**Add 'POSTGRESQL_DOMAIN' to your host**
+**Add 'MERCURE_DOMAIN' to your host**
 ```bash
-sudo echo "127.0.0.1  YOUR_POSTGRESQL_DOMAIN"  >> /etc/hosts
+sudo echo "127.0.0.1  YOUR_MERCURE_DOMAIN"  >> /etc/hosts
 ```
 
 ## Credits

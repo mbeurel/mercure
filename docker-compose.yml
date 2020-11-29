@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+
+  mercure:
+    image:  dunglas/mercure
+    container_name: mercure
+    networks:
+      - traefik
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.permanent=true"
+      - "traefik.http.routers.mercure.rule=Host(`${MERCURE_DOMAIN}`)"
+      - "traefik.http.routers.mercure.entryPoints=web"
+      - "traefik.http.routers.mercure.middlewares=redirect-to-https"
+      - "traefik.http.routers.mercure-https.rule=Host(`${MERCURE_DOMAIN}`)"
+      - "traefik.http.routers.mercure-https.entryPoints=websecure"
+      - "traefik.http.routers.mercure-https.tls=true"
+      - "traefik.http.routers.mercure-https.tls.certresolver=${CERT_RESOLVER}"
+    environment:
+      JWT_KEY: "${MERCURE_JWT_KEY}"
+      DEMO: "${MERCURE_DEMO}"
+      DEBUG: "${MERCURE_DEBUG}"
+      ADDR: ":80"
+      ALLOW_ANONYMOUS: 0
+      CORS_ALLOWED_ORIGINS: "*"
+      PUBLISH_ALLOWED_ORIGINS: "*"
+
+networks:
+  traefik:
+    external:
+      name: traefik

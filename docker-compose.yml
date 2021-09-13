@@ -12,21 +12,25 @@ services:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
       - "traefik.http.middlewares.redirect-to-https.redirectScheme.permanent=true"
-      - "traefik.http.routers.mercure.rule=Host(`${MERCURE_DOMAIN}`)"
+      - "traefik.http.routers.mercure.rule=Host(`${MERCURE_DOMAIN}`) || Host(`mercure.traefik`)"
       - "traefik.http.routers.mercure.entryPoints=web"
-      - "traefik.http.routers.mercure.middlewares=redirect-to-https"
-      - "traefik.http.routers.mercure-https.rule=Host(`${MERCURE_DOMAIN}`)"
+      - "traefik.http.routers.mercure-https.rule=Host(`${MERCURE_DOMAIN}`) || Host(`mercure.traefik`)"
       - "traefik.http.routers.mercure-https.entryPoints=websecure"
       - "traefik.http.routers.mercure-https.tls=true"
       - "traefik.http.routers.mercure-https.tls.certresolver=${CERT_RESOLVER}"
+
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     environment:
-      JWT_KEY: "${MERCURE_JWT_KEY}"
-      DEMO: "${MERCURE_DEMO}"
-      DEBUG: "${MERCURE_DEBUG}"
-      ADDR: ":80"
-      ALLOW_ANONYMOUS: 0
-      CORS_ALLOWED_ORIGINS: "*"
-      PUBLISH_ALLOWED_ORIGINS: "*"
+      SERVER_NAME:  ":80"
+      MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_PUBLISHER_JWT_KEY}"
+      MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_SUBSCRIBER_JWT_KEY}"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
 
 networks:
   traefik:

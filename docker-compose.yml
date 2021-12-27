@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.mercure-https.entryPoints=websecure"
       - "traefik.http.routers.mercure-https.tls=true"
       - "traefik.http.routers.mercure-https.tls.certresolver=${CERT_RESOLVER}"
-      - "traefik.http.routers.mercure-https.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.mercure-https.tls.domains[0].main=${MERCURE_DOMAIN}"
 
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     environment:
